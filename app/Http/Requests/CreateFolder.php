@@ -25,7 +25,7 @@ class CreateFolder extends FormRequest
     {
         return [
             //
-            'title' => 'required',
+            'title' => 'required|max:20',
         ];
     }
 
@@ -35,4 +35,6 @@ class CreateFolder extends FormRequest
             'title' => 'フォルダ名',
         ];
     }
+
+
 }
