@@ -27,9 +27,9 @@ class EditTask extends CreateTask
 
     public function attributes()
     {
-        $attribute = parent::attributes();
+        $attributes = parent::attributes();
 
-        return $attribute + [
+        return $attributes + [
             'status' => '状態',
         ];
     }
@@ -45,7 +45,7 @@ class EditTask extends CreateTask
         $status_labels = implode('、', $status_labels);
 
         return $messages + [
-            'status.in' => ':attribute には'.$status_labels.'のいずれかを指定してください。',
+            'status.in' => ':attribute には ' . $status_labels. ' のいずれかを指定してください。',
         ];
 
 
@@ -54,7 +54,7 @@ class EditTask extends CreateTask
 
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
