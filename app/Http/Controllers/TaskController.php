@@ -6,22 +6,21 @@ use App\Folder;
 use App\Task;
 use App\Http\Requests\CreateTask;
 use App\Http\Requests\EditTask;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
 class TaskController extends Controller
 {
     //
-    public function index(int $id){
-        $folders = Folder::all();
+    public function index(Folder $folder){
+        $folders = Auth::user()->folders()->get();
 
-        $current_folder = Folder::find($id);
-
-        $tasks = $current_folder->tasks()->get();
-
+        $tasks = $folder->tasks()->get();
+        
         return view('tasks/index', [
             'folders' => $folders,
-            'current_folder_id'=> $id,
+            'current_folder_id'=> $folder->id,
             'tasks' => $tasks,
         ] );
     }
