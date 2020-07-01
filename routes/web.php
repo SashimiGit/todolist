@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::group(['middleware' => 'can:view,folder'], function() {
+    Route::get('/folders/{folder}/tasks', 'TaskController@index')->name('tasks.index');
+});
+
 Route::group(['middleware'=> 'auth'],function(){
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -35,6 +39,8 @@ Route::group(['middleware'=> 'auth'],function(){
 });
 
 Auth::routes();
+
+
 
 Route::get('/', function () {
     return view('welcome');
