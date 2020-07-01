@@ -16,7 +16,7 @@ class TaskController extends Controller
     //
     public function index(Folder $folder){
         
-        $folders = Auth::user()->folders()->get();
+        $folders = Auth::user()->User::folders()->get();
 
         $tasks = $folder->tasks()->get();
         
@@ -52,10 +52,6 @@ class TaskController extends Controller
 
         $this->checkRelation($folder, $task);
 
-        if ($folder->id !== $task->folder_id) {
-            abort(404);
-        }
-
         return view('tasks/edit', [
             'task' => $task,
         ]);
@@ -64,10 +60,6 @@ class TaskController extends Controller
     public function edit(Folder $folder, Task $task, EditTask $request){
 
         $this->checkRelation($folder, $task);
-
-        if ($folder->id !== $task->folder_id) {
-            abort(404);
-        }
 
         $task->title = $request->title;
         $task->status = $request->status;
@@ -79,10 +71,12 @@ class TaskController extends Controller
         ]);
     }
 
-    private function checkRelation(Folder $folder, Task $task){
-        if ($folder->id !== $task->folder_id) {
-            abort(404);
+    private function checkRelation(Folder $folder, Task $task)
+{
+    if ($folder->id !== $task->folder_id) {
+        abort(404);
     }
+}
 
-    }
+}
 
