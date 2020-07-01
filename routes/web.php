@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +33,6 @@ Route::post('/folders/{id}/tasks/create', 'TaskController@create');
 Route::get('/folders/{id}/tasks/{task_id}/edit', 'TaskController@showEditForm')->name('tasks.edit');
 
 Route::post('/folders/{id}/tasks/{task_id}/edit', 'TaskController@edit');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
