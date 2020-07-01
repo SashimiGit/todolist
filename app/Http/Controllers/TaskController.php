@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Folder;
 use App\Task;
+use App\User;
 use App\Http\Requests\CreateTask;
 use App\Http\Requests\EditTask;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class TaskController extends Controller
 {
     //
     public function index(Folder $folder){
+        
         $folders = Auth::user()->folders()->get();
 
         $tasks = $folder->tasks()->get();
@@ -25,38 +27,35 @@ class TaskController extends Controller
         ] );
     }
 
-    public function showCreateForm(int $id){
+    public function showCreateForm(Folder $folder){
     return view('tasks/create', [
-        'folder_id' => $id
+        'folder_id' => $folder->id,
     ]);
     }
 
-    public function create(int $id, CreateTask $request){
-        $current_folder = Folder::find($id);
+    public function create(Folder $folder, CreateTask $request){
+       
 
         $task = new Task();
         $task->title = $request->title;
         $task->due_date= $request->due_date;
 
-        $current_folder->tasks()->save($task);
+        $folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [
-            'id' => $current_folder->id,
+            'id' => $folder->id,
         ]);
 
     }
 
-    public function showEditForm(int $id, int $task_id){
-        $task = Task::find($task_id);
+    public function showEditForm(Folder $folder, Task $task){
 
         return view('tasks/edit', [
             'task' => $task,
         ]);
     }
 
-    public function edit(int $id, int $task_id, EditTask $request){
-
-        $task = Task::find($task_id);
+    public function edit(Folder $folder, Task $task, EditTask $request){
 
         $task->title = $request->title;
         $task->status = $request->status;
